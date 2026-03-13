@@ -25,5 +25,16 @@ class Profile(models.Model):
     achievements = models.CharField(max_length=100, blank=True, null=True)
     joined = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self): #diz pro painel de admin qual o nome do objeto
+    def __str__(self): 
         return self.username
+
+class Follow(models.Model):
+    follower = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    following = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ["follower","following"]
+
+    def __str__(self): 
+        return self.follower.username + ' followed ' + self.following.username
+    
