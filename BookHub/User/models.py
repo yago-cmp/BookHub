@@ -1,4 +1,5 @@
 from django.db import models
+from Book import models
 from django.conf import settings
 import uuid
 # Create your models here.
@@ -37,5 +38,5 @@ class Follow(models.Model):
         unique_together = ["follower","following"]
 
     def __str__(self): 
-        return self.follower.username + ' followed ' + self.following.username
+        return self.follower.username + ' follows ' + self.following.username
     
