@@ -29,8 +29,9 @@ class Profile(models.Model):
         return self.username
 
 class Follow(models.Model):
-    follower = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    following = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    follow_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    follower = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="following")
+    following = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="followers")
 
     class Meta:
         unique_together = ["follower","following"]
