@@ -16,3 +16,16 @@ class Book(models.Model):
 
     def __str__(self): 
         return self.title
+    
+class Author(models.Model):
+    author_id = models.UUIDField(primary_key=True, default_uuid=uuid.uuid4, editable=False)
+
+    name = models.CharField(max_length=50)
+    bio = models.TextField(blank=True, null=True)
+    birth = models.DateField(blank=True, null=True)
+    pic = models.ImageField(default='fallback.png', blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+    
+
