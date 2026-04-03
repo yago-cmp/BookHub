@@ -1,5 +1,5 @@
 from django.db import models
-from Book import models
+from Book.models import Book
 from django.conf import settings
 import uuid
 # Create your models here.
@@ -13,7 +13,6 @@ class User(models.Model):
     def __str__(self): 
         return self.email
     
-
 class Profile(models.Model):
     #related name faz o acesso de profile atraves de user mais facil. por padrao ja e profile
     user_id = models.OneToOneField('User', on_delete=models.CASCADE, related_name='profile')
@@ -40,3 +39,10 @@ class Follow(models.Model):
     def __str__(self): 
         return self.follower.username + ' follows ' + self.following.username
     
+class ReadList(models.Model):
+    readlist_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    profile_id = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    book_id = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+    def __str__(self): 
+        return self.profile_id.username + ' listed ' + self.book_id.title
