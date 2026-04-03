@@ -63,3 +63,15 @@ class Library(models.Model):
 
     def __str__(self): 
         return self.profile_id.username + ' libraried ' + self.booklog_id.book_id.title   
+    
+class Update(models.Model):
+    update_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    booklog_id = models.ForeignKey(BookLog, on_delete=models.CASCADE)
+    pages_today = models.IntegerField(default=0)
+    date = models.DateField(auto_now_add=True)
+    review = models.BooleanField(default = False)
+    obs = models.TextField(blank=True, null=True)
+    nota = models.IntegerField(blank=True, null=True)
+
+    def __str__(self): 
+        return self.pages_today + ' pages today of ' + self.booklog_id.book_id.title   
