@@ -46,3 +46,20 @@ class ReadList(models.Model):
 
     def __str__(self): 
         return self.profile_id.username + ' listed ' + self.book_id.title
+    
+class BookLog(models.Model):
+    booklog_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    book_id = models.ForeignKey(Book, on_delete=models.CASCADE)
+    pages_read = models.IntegerField(default=0)
+    finished = models.BooleanField(default=False)
+
+    def __str__(self): 
+        return self.pages_read + ' pages of '+ self.book_id.title
+
+class Library(models.Model):
+    library_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    profile_id = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    booklog_id = models.ForeignKey(BookLog, on_delete=models.CASCADE)
+
+    def __str__(self): 
+        return self.profile_id.username + ' libraried ' + self.booklog_id.book_id.title   
