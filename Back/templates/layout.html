@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title%}
+            BookHub
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" href="{% static 'book-icon.png' %}">
+</head>
+
+<body>
+    <header>
+        <div class="marca">
+            <img src="{% static 'book-icon.png' %}" alt="icone livro" width="60px">
+            <h1>
+                BookHub
+            </h1>
+        </div>
+
+        <nav>
+            <a href="https://www.teste.com">Biblioteca</a>
+            <a href="https://www.teste.com">Amigos</a>
+            <a href="https://www.teste.com">Conta</a>
+            <a href="/about">About</a>
+        </nav>
+
+    </header>
+    <main>
+        
+        {% block content %}
+            <p>Main</p>
+        {% endblock %}
+
+    
+    </main>
+ 
+    <footer>
+        <p>
+            Footer
+        </p>
+    </footer>
+</body>
+</html>
