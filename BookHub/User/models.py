@@ -2,8 +2,6 @@ from django.db import models
 from Book.models import Book
 from django.conf import settings
 import uuid
-# Create your models here.
-
 
 class User(models.Model):
     user = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -40,32 +38,32 @@ class Follow(models.Model):
     
 class ReadList(models.Model):
     readlist = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    profile = models.OneToOneField('Profile', on_delete=models.CASCADE, related_name='readlist')
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='readlist')
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    added = models.DateField(auto_now_add=True)
 
     def __str__(self): 
         return self.profile.username + ' listed ' + self.book.title
     
+    class Meta:
+        unique_together = ["book", "profile"]
+    
 class BookLog(models.Model):
     booklog = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='booklogs')
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='booklogs')
     pages_read = models.IntegerField(default=0)
     finished = models.BooleanField(default=False)
 
     def __str__(self): 
-        return self.pages_read + ' pages of ' + self.book.title
-
-class Library(models.Model):
-    library = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    profile = models.OneToOneField('Profile', on_delete=models.CASCADE, related_name='library')
-    booklog = models.ForeignKey(BookLog, on_delete=models.CASCADE)
-
-    def __str__(self): 
-        return self.profile.username + ' libraried ' + self.booklog.book_id.title   
+        return str(self.pages_read) + ' pages of ' + self.book.title
     
+    class Meta:
+        unique_together = ["book", "profile"]
+
 class Update(models.Model):
     update = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    booklog = models.ForeignKey(BookLog, on_delete=models.CASCADE)
+    booklog = models.ForeignKey(BookLog, on_delete=models.CASCADE, related_name='updates')
     pages_today = models.IntegerField(default=0)
     date = models.DateField(auto_now_add=True)
     review = models.BooleanField(default = False)
@@ -73,4 +71,4 @@ class Update(models.Model):
     nota = models.IntegerField(blank=True, null=True)
 
     def __str__(self): 
-        return self.pages_today + ' pages today of ' + self.booklog.book_id.title   
+        return str(self.pages_today) + ' pages today of ' + self.booklog.book.title   
