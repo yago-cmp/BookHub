@@ -1,15 +1,11 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from Book.models import Book
 from django.conf import settings
 import uuid
 
-class User(models.Model):
-    user = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    email = models.EmailField(max_length=30)
-    password = models.CharField(max_length=16)
-
-    def __str__(self): 
-        return self.email
+class User(AbstractUser):
+    pass
     
 class Profile(models.Model):
     #related name faz o acesso de profile atraves de user mais facil. por padrao ja e profile
