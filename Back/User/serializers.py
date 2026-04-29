@@ -16,6 +16,7 @@ class User_Serial(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'email', 'password', 'profile']
+        extra_kwargs = {'password': {'write_only': True}}
     
     def create(self, dados): #altera o create, insere dados iniciais no profile também, ja linkando os dois atraves do signals
         dadosProfile = dados.pop('profile') #retira a profile dos dados e poe em dadosProfile
