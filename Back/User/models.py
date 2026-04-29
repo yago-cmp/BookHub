@@ -11,7 +11,7 @@ class Profile(models.Model):
     #related name faz o acesso de profile atraves de user mais facil. por padrao ja e profile
     user = models.OneToOneField('User', on_delete=models.CASCADE, related_name='profile')
     profile = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    username = models.CharField(max_length=15, unique=True)
+    usernameP = models.CharField(max_length=15, unique=True)
     bio = models.TextField(blank=True, null=True)
     pfp = models.ImageField(default='fallback.png', blank=True, null=True)
     streak = models.IntegerField(default=0)
